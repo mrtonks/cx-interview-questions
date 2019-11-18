@@ -31,14 +31,14 @@ import os
 import math
 
 
-def cat_textfile_to_dict(filename, prod_decorator=":"):
+def cat_textfile_to_dict(filename, prod_separator=":"):
     """Converts text file into the catalogue dictionary
 
     Parameters
     ----------
     filename : str
         The name and location of the of the text file inside the project
-    prod_decorator : str, optional
+    prod_separator : str, optional
         Enclose the product name (default is ":")
 
     Returns
@@ -56,8 +56,7 @@ def cat_textfile_to_dict(filename, prod_decorator=":"):
 
     with open(filepath, "r") as f:
         for line in f:
-            arr = line.strip().split(prod_decorator)
-
+            arr = line.strip().split(prod_separator)
             product = arr[0].strip()
             price = float(arr[1].strip().replace("£", ""))
 
@@ -72,14 +71,14 @@ def cat_textfile_to_dict(filename, prod_decorator=":"):
     return dict(catalogue)
 
 
-def offers_textfile_to_dict(filename, prod_decorator=":"):
+def offers_textfile_to_dict(filename, prod_separator=":"):
     """Converts text file into the offers dictionary
 
     Parameters
     ----------
     filename : str
         The name and location of the of the text file inside the project
-    prod_decorator : str, optional
+    prod_separator : str, optional
         Enclose the product name (default is ":")
 
     Returns
@@ -97,11 +96,10 @@ def offers_textfile_to_dict(filename, prod_decorator=":"):
 
     with open(filepath, "r") as f:
         for line in f:
-            if prod_decorator in line:
-                arr = line.strip().split(prod_decorator)
-                product = arr[0].strip()
-                offer = arr[1].strip().replace("%", "").replace(",", "").split(" ")
-                offers[product] = offer
+            arr = line.strip().split(prod_separator)
+            product = arr[0].strip()
+            offer = arr[1].strip().replace("%", "").replace(",", "").split(" ")
+            offers[product] = offer
 
             # TODO: future implementation of "cheapest"
             # elif "cheapest" in line:
@@ -117,14 +115,14 @@ def offers_textfile_to_dict(filename, prod_decorator=":"):
     return dict(offers)
 
 
-def basket_textfile_to_dict(filename, basket_decorator="x"):
+def basket_textfile_to_dict(filename, prod_separator="x"):
     """Converts text file into the basket dictionary
 
     Parameters
     ----------
     filename : str
         The name and location of the of the text file inside the project
-    prod_decorator : str, optional
+    prod_separator : str, optional
         Enclose the product name (default is "x")
 
     Returns
@@ -143,7 +141,7 @@ def basket_textfile_to_dict(filename, basket_decorator="x"):
 
     with open(filepath, "r") as f:
         for line in f:
-            arr = line.strip().split(basket_decorator)
+            arr = line.strip().split(prod_separator)
             product = arr[0].strip()
             quantity = int(arr[1])
 
