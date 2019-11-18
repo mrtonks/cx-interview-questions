@@ -64,7 +64,7 @@ class TestBasketPricer(unittest.TestCase):
             test_pricer.calculate_subtotal(dict_basket, dict_cat)
 
     def test_get_basket_from_textfile(self):
-        filepath = "shopping_basket/shopping_basket_tests/basket_1.txt"
+        filepath = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
         basket = {"Baked Beans": 4, "Biscuits": 1}
 
         dict_basket = helpers.basket_textfile_to_dict(filepath)
@@ -73,10 +73,10 @@ class TestBasketPricer(unittest.TestCase):
             dict_basket, basket, "The basket is not correct.",
         )
 
-    def test_get_subtotal_zero_with_catalogue_none(self):
+    def test_get_subtotal_error_with_catalogue_empty(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_1.txt"
+        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
         dict_catalog = {}
@@ -84,19 +84,22 @@ class TestBasketPricer(unittest.TestCase):
         with self.assertRaises(NotImplementedError):
             test_pricer.calculate_subtotal(dict_basket, dict_catalog)
 
-    def test_get_subtotal_zero_with_basket_and_catalog_none(self):
-        test_pricer_b = basket_pricer.BasketPricer()
+    def test_get_subtotal_zero_with_empty_basket(self):
+        test_pricer = basket_pricer.BasketPricer()
+
+        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_test.txt"
 
         dict_basket = {}
-        dict_catalogue = {}
+        dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
 
-        with self.assertRaises(NotImplementedError):
-            test_pricer_b.calculate_subtotal(dict_basket, dict_catalogue)
+        test_pricer.calculate_subtotal(dict_basket, dict_catalogue)
+
+        self.assertEqual(test_pricer.subtotal, 0.0, "The subtotal is not zero.")
 
     def test_get_subtotal_with_basket_1(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_1.txt"
+        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
         filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_test.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
@@ -108,10 +111,37 @@ class TestBasketPricer(unittest.TestCase):
 
         self.assertEqual(test_pricer.subtotal, subtotal, "The subtotal is incorrect.")
 
+    def test_get_discount_zero_with_empty_basket(self):
+        test_pricer = basket_pricer.BasketPricer()
+
+        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_test.txt"
+        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+
+        dict_basket = {}
+        dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
+        dict_offers = helpers.offers_textfile_to_dict(filepath_offers)
+
+        test_pricer.calculate_discount(dict_basket, dict_catalogue, dict_offers)
+
+        self.assertEqual(test_pricer.discount, 0.0, "The discount is incorrect.")
+
+    def test_get_discount_error_with_empty_catalogue(self):
+        test_pricer = basket_pricer.BasketPricer()
+
+        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
+        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+
+        dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
+        dict_catalogue = {}
+        dict_offers = helpers.offers_textfile_to_dict(filepath_offers)
+
+        with self.assertRaises(NotImplementedError):
+            test_pricer.calculate_discount(dict_basket, dict_catalogue, dict_offers)
+
     def test_get_discount_with_basket_1(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_1.txt"
+        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
         filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_test.txt"
         filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
 
@@ -125,10 +155,27 @@ class TestBasketPricer(unittest.TestCase):
 
         self.assertEqual(test_pricer.discount, discount, "The discount is incorrect.")
 
+    def test_get_discount_with_basket_2(self):
+        test_pricer = basket_pricer.BasketPricer()
+
+        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_2.txt"
+        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_test.txt"
+        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+
+        dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
+        dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
+        dict_offers = helpers.offers_textfile_to_dict(filepath_offers)
+
+        discount = 0.95
+
+        test_pricer.calculate_discount(dict_basket, dict_catalogue, dict_offers)
+
+        self.assertEqual(test_pricer.discount, discount, "The discount is incorrect.")
+
     def test_get_all_totals_basket_1(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_1.txt"
+        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
         filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_full.txt"
         filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
 
@@ -149,7 +196,7 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_all_totals_basket_2(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_2.txt"
+        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_2.txt"
         filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_full.txt"
         filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
 
@@ -167,7 +214,29 @@ class TestBasketPricer(unittest.TestCase):
         self.assertEqual(test_pricer.discount, discount, "The discount is incorrect.")
         self.assertEqual(test_pricer.total, total, "The total is incorrect.")
 
-    def test_get_all_totals_no_basket(self):
+    def test_get_all_totals_basket_3(self):
+        test_pricer = basket_pricer.BasketPricer()
+
+        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_3.txt"
+        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_full.txt"
+        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+
+        dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
+        dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
+        dict_offers = helpers.offers_textfile_to_dict(filepath_offers)
+
+        subtotal = 15.92
+        discount = 2.93
+        total = 12.99
+
+        test_pricer.calculate_total(dict_basket, dict_catalogue, dict_offers)
+
+        self.assertEqual(test_pricer.subtotal, subtotal, "The subtotal is incorrect.")
+        self.assertEqual(test_pricer.discount, discount, "The discount is incorrect.")
+        self.assertEqual(test_pricer.total, total, "The total is incorrect.")
+
+
+    def test_get_all_totals_zero_with_empty_basket(self):
         test_pricer = basket_pricer.BasketPricer()
 
         filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_full.txt"
@@ -177,13 +246,16 @@ class TestBasketPricer(unittest.TestCase):
         dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
         dict_offers = helpers.offers_textfile_to_dict(filepath_offers)
 
-        with self.assertRaises(NotImplementedError):
-            test_pricer.calculate_total(dict_basket, dict_catalogue, dict_offers)
+        test_pricer.calculate_total(dict_basket, dict_catalogue, dict_offers)
 
-    def test_get_all_totals_no_catalogue(self):
+        self.assertEqual(test_pricer.subtotal, 0.0, "The subtotal is incorrect.")
+        self.assertEqual(test_pricer.discount, 0.0, "The discount is incorrect.")
+        self.assertEqual(test_pricer.total, 0.0, "The total is incorrect.")
+
+    def test_get_all_totals_error_with_empty_catalogue(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_1.txt"
+        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
         filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
@@ -193,10 +265,10 @@ class TestBasketPricer(unittest.TestCase):
         with self.assertRaises(NotImplementedError):
             test_pricer.calculate_total(dict_basket, dict_catalogue, dict_offers)
 
-    def test_get_all_totals_no_offers(self):
+    def test_get_all_totals_error__with_empty_offers(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_1.txt"
+        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
         filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_full.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)

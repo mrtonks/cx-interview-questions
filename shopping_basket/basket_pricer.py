@@ -27,8 +27,8 @@ class BasketPricer:
         calculates the discounts
     calculate_total(basket, catalogue, offers)
         calculates the subtotals, the discounts and the total value
-    print_results()
-        prints the results of the calculations
+    print_totals()
+        prints the totals of the calculations
     """
 
     def __init__(self):
@@ -54,11 +54,15 @@ class BasketPricer:
         subtotal = 0.0
         if (
             not isinstance(basket, dict)
-            or len(basket) == 0
             or not isinstance(catalogue, dict)
             or len(catalogue) == 0
         ):
-            raise NotImplementedError("Basket or Catalogue are not loaded.")
+            raise NotImplementedError("Catalogue and basket must be loaded.")
+
+        if len(basket) == 0:
+            self.subtotal = 0.0
+            return
+
 
         for p, q in basket.items():
             if p in catalogue:
@@ -86,13 +90,16 @@ class BasketPricer:
         discount = 0.0
         if (
             not isinstance(basket, dict)
-            or len(basket) == 0
             or not isinstance(catalogue, dict)
             or len(catalogue) == 0
             or not isinstance(offers, dict)
             or len(offers) == 0
         ):
-            raise NotImplementedError("Basket, Catalogue or Offers are not loaded.")
+            raise NotImplementedError("Catalog, basket and offers must be loaded.")
+
+        if len(basket) == 0:
+            self.discount = 0.0
+            return
 
         for p, q in basket.items():
             if p in offers or p.split(" ")[0] in offers:
@@ -104,15 +111,16 @@ class BasketPricer:
                     if p in catalogue:
                         discount += percentage * (catalogue[p] * q)
 
-                if "cheapest" in offer:
-                    # ['cheapest', N]
-                    to_buy = int(offer[1])
+                # TODO: Future implementation of "cheapest"
+                # if "cheapest" in offer:
+                #     # ['cheapest', N]
+                #     to_buy = int(offer[1])
 
                 if "buy" in offer:
                     # ['buy', N, 'get', n, 'free']
                     to_buy = int(offer[1])
                     to_get = int(offer[3])
-                    for_free = q // (to_buy + to_get)
+                    for_free = q // (to_buy + to_get) # Obtain quotient
                     if p in catalogue:
                         discount += catalogue[p] * for_free
 
@@ -138,7 +146,9 @@ class BasketPricer:
         # Adjust
         self.total = helpers.roundup(total) if total >= 0.0 else 0.0
 
-    def print_results(self):
+    def print_totals(self):
+        """Prints the values of all calculations"""
+
         print("Subtotal: £%.2f" % self.subtotal)
         print("Discount: £%.2f" % self.discount)
         print("Total: £%.2f" % self.total)
