@@ -149,6 +149,6 @@ class BasketPricer:
     def print_totals(self):
         """Prints the values of all calculations"""
 
-        print("Subtotal: £%.2f" % self.subtotal)
-        print("Discount: £%.2f" % self.discount)
-        print("Total: £%.2f" % self.total)
+        print(u"Subtotal: \xA3%.2f" % self.subtotal)
+        print(u"Discount: \xA3%.2f" % self.discount)
+        print(u"Total: \xA3%.2f" % self.total)

@@ -23,7 +23,7 @@ class TestBasketPricer(unittest.TestCase):
         self.assertEqual(test_pricer.total, 0.0, "Total is not zero.")
 
     def test_get_catalog_from_textfile(self):
-        filepath = "shopping_basket/shopping_basket_tests/catalogue_test.txt"
+        filepath = "shopping_basket/data/catalogue_test.txt"
         catalog = {"Baked Beans": 0.99, "Biscuits": 1.20, "Sardines": 1.89}
 
         dict_cat = helpers.cat_textfile_to_dict(filepath)
@@ -39,7 +39,7 @@ class TestBasketPricer(unittest.TestCase):
             helpers.cat_textfile_to_dict(filepath)
 
     def test_get_offers_from_textfile(self):
-        filepath = "shopping_basket/shopping_basket_tests/offers_test.txt"
+        filepath = "shopping_basket/data/offers_test.txt"
         offers = {
             "Baked Beans": ["buy", "2", "get", "1", "free"],
             "Sardines": ["25", "discount"],
@@ -55,7 +55,7 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_subtotal_zero_with_basket_none(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_test.txt"
+        filepath_catalogue = "shopping_basket/data/catalogue_test.txt"
 
         dict_basket = {}
         dict_cat = helpers.cat_textfile_to_dict(filepath_catalogue)
@@ -64,7 +64,7 @@ class TestBasketPricer(unittest.TestCase):
             test_pricer.calculate_subtotal(dict_basket, dict_cat)
 
     def test_get_basket_from_textfile(self):
-        filepath = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
+        filepath = "shopping_basket/data/basket_test_1.txt"
         basket = {"Baked Beans": 4, "Biscuits": 1}
 
         dict_basket = helpers.basket_textfile_to_dict(filepath)
@@ -76,7 +76,7 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_subtotal_error_with_catalogue_empty(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
+        filepath_basket = "shopping_basket/data/basket_test_1.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
         dict_catalog = {}
@@ -87,7 +87,7 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_subtotal_zero_with_empty_basket(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_test.txt"
+        filepath_catalogue = "shopping_basket/data/catalogue_test.txt"
 
         dict_basket = {}
         dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
@@ -99,8 +99,8 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_subtotal_with_basket_1(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
-        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_test.txt"
+        filepath_basket = "shopping_basket/data/basket_test_1.txt"
+        filepath_catalogue = "shopping_basket/data/catalogue_test.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
         dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
@@ -114,8 +114,8 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_discount_zero_with_empty_basket(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_test.txt"
-        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+        filepath_catalogue = "shopping_basket/data/catalogue_test.txt"
+        filepath_offers = "shopping_basket/data/offers_test.txt"
 
         dict_basket = {}
         dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
@@ -128,8 +128,8 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_discount_error_with_empty_catalogue(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
-        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+        filepath_basket = "shopping_basket/data/basket_test_1.txt"
+        filepath_offers = "shopping_basket/data/offers_test.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
         dict_catalogue = {}
@@ -141,9 +141,9 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_discount_with_basket_1(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
-        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_test.txt"
-        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+        filepath_basket = "shopping_basket/data/basket_test_1.txt"
+        filepath_catalogue = "shopping_basket/data/catalogue_test.txt"
+        filepath_offers = "shopping_basket/data/offers_test.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
         dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
@@ -158,9 +158,9 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_discount_with_basket_2(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_2.txt"
-        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_test.txt"
-        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+        filepath_basket = "shopping_basket/data/basket_test_2.txt"
+        filepath_catalogue = "shopping_basket/data/catalogue_test.txt"
+        filepath_offers = "shopping_basket/data/offers_test.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
         dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
@@ -175,9 +175,9 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_all_totals_basket_1(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
-        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_full.txt"
-        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+        filepath_basket = "shopping_basket/data/basket_test_1.txt"
+        filepath_catalogue = "shopping_basket/data/catalogue_full.txt"
+        filepath_offers = "shopping_basket/data/offers_test.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
         dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
@@ -196,9 +196,9 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_all_totals_basket_2(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_2.txt"
-        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_full.txt"
-        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+        filepath_basket = "shopping_basket/data/basket_test_2.txt"
+        filepath_catalogue = "shopping_basket/data/catalogue_full.txt"
+        filepath_offers = "shopping_basket/data/offers_test.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
         dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
@@ -217,9 +217,9 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_all_totals_basket_3(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_3.txt"
-        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_full.txt"
-        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+        filepath_basket = "shopping_basket/data/basket_test_3.txt"
+        filepath_catalogue = "shopping_basket/data/catalogue_full.txt"
+        filepath_offers = "shopping_basket/data/offers_test.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
         dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
@@ -239,8 +239,8 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_all_totals_zero_with_empty_basket(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_full.txt"
-        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+        filepath_catalogue = "shopping_basket/data/catalogue_full.txt"
+        filepath_offers = "shopping_basket/data/offers_test.txt"
 
         dict_basket = {}
         dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
@@ -255,8 +255,8 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_all_totals_error_with_empty_catalogue(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
-        filepath_offers = "shopping_basket/shopping_basket_tests/offers_test.txt"
+        filepath_basket = "shopping_basket/data/basket_test_1.txt"
+        filepath_offers = "shopping_basket/data/offers_test.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
         dict_catalogue = {}
@@ -268,8 +268,8 @@ class TestBasketPricer(unittest.TestCase):
     def test_get_all_totals_error__with_empty_offers(self):
         test_pricer = basket_pricer.BasketPricer()
 
-        filepath_basket = "shopping_basket/shopping_basket_tests/basket_test_1.txt"
-        filepath_catalogue = "shopping_basket/shopping_basket_tests/catalogue_full.txt"
+        filepath_basket = "shopping_basket/data/basket_test_1.txt"
+        filepath_catalogue = "shopping_basket/data/catalogue_full.txt"
 
         dict_basket = helpers.basket_textfile_to_dict(filepath_basket)
         dict_catalogue = helpers.cat_textfile_to_dict(filepath_catalogue)
