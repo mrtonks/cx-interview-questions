@@ -1,6 +1,6 @@
 ## Documentation
 
-This implementation uses text files to load the necessary information from the basket, catalogue and offers into the program.
+This implementation uses text files to load the necessary information from the basket, catalogue and offers into the program. These files must be located inside the data folder in the project.
 
 ### Example files format
 
@@ -43,3 +43,7 @@ The next steps can be executed to run the implementation of the shopping basket
 ```bash
 python3 shopping_basket.py --basket-filename shopping_basket/data/basket_test_1.txt --catalogue-filename shopping_basket/data/catalogue_full.txt --offers-filename shopping_basket/data/offers_test.txt
 ```
+
+### Tests
+
+Tests are included in the folder shipping_basket_tests.
