@@ -29,21 +29,21 @@ The next steps can be executed to run the implementation of the shopping basket
   2.  In a terminal, locate the main project folder (cx-interview-questions)
   3.  Execute the script using
       ```bash
-      python3 shopping_basket_py
+      python3 shopping_basket.py
       ```
-  4.  When running the script, you must send the following necessary parameters
+  4.  When running the script, you must add the following necessary parameters
       ```bash
       --basket-filename Location of the basket file in the project
       --catalogue-filename Location of the catalogue file in the project
       --offers-filename Location of the offers file in the project
       ```
 
-#### Example
+#### Example for running the script
 
 ```bash
 python3 shopping_basket.py --basket-filename shopping_basket/data/basket_test_1.txt --catalogue-filename shopping_basket/data/catalogue_full.txt --offers-filename shopping_basket/data/offers_test.txt
 ```
 
-### Tests
+### Unit Tests
 
-Tests are included in the folder shipping_basket_tests.
+Unit tests are included in the folder shipping_basket/shipping_basket_tests.
