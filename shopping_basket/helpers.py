@@ -27,8 +27,7 @@ functions:
     * roundup - returns a rounded up floating point value
 """
 
-import os
-import math
+import os, math
 
 
 def cat_textfile_to_dict(filename, prod_decorator="**"):
@@ -52,12 +51,21 @@ def cat_textfile_to_dict(filename, prod_decorator="**"):
     filedir = os.path.dirname(os.path.realpath("__file__"))
     filepath = os.path.join(filedir, filename)
     if not os.path.isfile(filepath):
-        raise FileNotFoundError
+        raise FileNotFoundError("Catalogue file not found.")
 
     with open(filepath, "r") as f:
         for line in f:
             arr = line.strip().split(prod_decorator + " ")
-            catalogue[arr[0].replace("*", "")] = float(arr[1].replace("£", ""))
+
+            product = arr[0].replace("*", "")
+            price = float(arr[1].replace("£", ""))
+
+            if price < 0:
+                raise NotImplementedError(
+                    "Product {} price is negative".format(product)
+                )
+
+            catalogue[product] = price
 
     print("Catalogue file loaded.")
     return dict(catalogue)
@@ -84,23 +92,25 @@ def offers_textfile_to_dict(filename, prod_decorator="***"):
     filedir = os.path.dirname(os.path.realpath("__file__"))
     filepath = os.path.join(filedir, filename)
     if not os.path.isfile(filepath):
-        raise FileNotFoundError
+        raise FileNotFoundError("Offers file not found.")
 
     with open(filepath, "r") as f:
         for line in f:
             if prod_decorator in line:
                 arr = line.strip().split(prod_decorator + ": ")
-                offers[arr[0].replace("*", "")] = (
-                    arr[1].replace("%", "").replace(",", "").split(" ")
-                )
-            elif "cheapest" in line:
-                arr = line.split(",")
-                arr_subset = arr[0].split("of")
-                # Get {X}: N
-                offers[arr_subset[1].strip()] = [
-                    "cheapest",
-                    int(arr_subset[0].split(" ")[1].strip()),
-                ]
+                product = arr[0].replace("*", "")
+                offer = arr[1].replace("%", "").replace(",", "").split(" ")
+                offers[product] = offer
+
+            # TODO: future implementation of "cheapest"
+            # elif "cheapest" in line:
+            #     arr = line.split(",")
+            #     arr_subset = arr[0].split("of")
+            #     # Get {X}: N
+            #     offers[arr_subset[1].strip()] = [
+            #         "cheapest",
+            #         int(arr_subset[0].split(" ")[1].strip()),
+            #     ]
 
     print("Offers file loaded.")
     return dict(offers)
@@ -126,13 +136,19 @@ def basket_textfile_to_dict(filename, basket_decorator="x"):
     basket = {}
     filedir = os.path.dirname(os.path.realpath("__file__"))
     filepath = os.path.join(filedir, filename)
+
     if not os.path.isfile(filepath):
-        raise FileNotFoundError
+        raise FileNotFoundError("Basket file not found.")
 
     with open(filepath, "r") as f:
         for line in f:
             arr = line.strip().split(basket_decorator)
-            basket[arr[0].strip()] = int(arr[1])
+            product = arr[0].strip()
+            quantity = int(arr[1])
+
+            if quantity < 0:
+                raise NotImplementedError("Product {} cannot be negative".format(product))
+            basket[product] = quantity
 
     print("Basket file loaded.")
     return dict(basket)
