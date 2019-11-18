@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 
-import sys, argparse
+import sys
+import argparse
 
 import shopping_basket.basket_pricer as bp
 import shopping_basket.helpers as helpers
 
 
 def parse_args():
+    """Parses all parameters"""
     parser = argparse.ArgumentParser(description="Shopping_basket")
 
     parser.add_argument(
@@ -44,24 +46,25 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
 
-    basket = args.basket
-    catalogue = args.catalogue
-    offers = args.offers
+    BASKET = args.basket
+    CATALOGUE = args.catalogue
+    OFFERS = args.offers
 
-    if basket is None or catalogue is None or offers is None:
+    if BASKET is None or CATALOGUE is None or OFFERS is None:
         print("Error: All file locations must be provided.")
         sys.exit(1)
 
     bp = bp.BasketPricer()
 
     print("\nLoading files...")
-    dict_basket = helpers.basket_textfile_to_dict(basket)
-    dict_catalogue = helpers.cat_textfile_to_dict(catalogue)
-    dict_offers = helpers.offers_textfile_to_dict(offers)
+    DICT_BASKET = helpers.basket_textfile_to_dict(BASKET)
+    DICT_CATALOGUE = helpers.cat_textfile_to_dict(CATALOGUE)
+    DICT_OFFERS = helpers.offers_textfile_to_dict(OFFERS)
 
     print("\n***************************************")
     print("Calculating totals")
-    bp.calculate_total(dict_basket, dict_catalogue, dict_offers)
+    bp.calculate_total(DICT_BASKET, DICT_CATALOGUE, DICT_OFFERS)
 
     print("***************************************\n")
     bp.print_totals()
+    sys.exit(1)
