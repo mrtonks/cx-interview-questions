@@ -1,4 +1,5 @@
 import unittest
+
 from shopping_basket import basket_pricer
 from shopping_basket import helpers
 
@@ -42,8 +43,7 @@ class TestBasketPricer(unittest.TestCase):
         filepath = "shopping_basket/data/offers_test.txt"
         offers = {
             "Baked Beans": ["buy", "2", "get", "1", "free"],
-            "Sardines": ["25", "discount"],
-            "Shampoo": ["cheapest", 3],
+            "Sardines": ["25", "discount"]
         }
 
         dict_offers = helpers.offers_textfile_to_dict(filepath)
@@ -51,17 +51,6 @@ class TestBasketPricer(unittest.TestCase):
         self.assertEqual(
             dict_offers, offers, "The offers are not correct.",
         )
-
-    def test_get_subtotal_zero_with_basket_none(self):
-        test_pricer = basket_pricer.BasketPricer()
-
-        filepath_catalogue = "shopping_basket/data/catalogue_test.txt"
-
-        dict_basket = {}
-        dict_cat = helpers.cat_textfile_to_dict(filepath_catalogue)
-
-        with self.assertRaises(NotImplementedError):
-            test_pricer.calculate_subtotal(dict_basket, dict_cat)
 
     def test_get_basket_from_textfile(self):
         filepath = "shopping_basket/data/basket_test_1.txt"
@@ -234,7 +223,6 @@ class TestBasketPricer(unittest.TestCase):
         self.assertEqual(test_pricer.subtotal, subtotal, "The subtotal is incorrect.")
         self.assertEqual(test_pricer.discount, discount, "The discount is incorrect.")
         self.assertEqual(test_pricer.total, total, "The total is incorrect.")
-
 
     def test_get_all_totals_zero_with_empty_basket(self):
         test_pricer = basket_pricer.BasketPricer()

@@ -9,11 +9,11 @@ depend on the requirements set.
 
 Examples of formats:
 Catalogue
-**Baked Beans** £0.99
+Baked Beans: £0.99
 
 Offers
-***Baked Beans***: buy 2 get 1 free
-***Sardines***: 25% discount
+Baked Beans: buy 2 get 1 free
+Sardines: 25% discount
 
 Basket
 Baked Beans x 4
@@ -27,10 +27,11 @@ functions:
     * roundup - returns a rounded up floating point value
 """
 
-import os, math
+import os
+import math
 
 
-def cat_textfile_to_dict(filename, prod_decorator="**"):
+def cat_textfile_to_dict(filename, prod_decorator=":"):
     """Converts text file into the catalogue dictionary
 
     Parameters
@@ -38,7 +39,7 @@ def cat_textfile_to_dict(filename, prod_decorator="**"):
     filename : str
         The name and location of the of the text file inside the project
     prod_decorator : str, optional
-        Enclose the product name (default is "**")
+        Enclose the product name (default is ":")
 
     Returns
     -------
@@ -55,10 +56,10 @@ def cat_textfile_to_dict(filename, prod_decorator="**"):
 
     with open(filepath, "r") as f:
         for line in f:
-            arr = line.strip().split(prod_decorator + " ")
+            arr = line.strip().split(prod_decorator)
 
-            product = arr[0].replace("*", "")
-            price = float(arr[1].replace("£", ""))
+            product = arr[0].strip()
+            price = float(arr[1].strip().replace("£", ""))
 
             if price < 0:
                 raise NotImplementedError(
@@ -71,7 +72,7 @@ def cat_textfile_to_dict(filename, prod_decorator="**"):
     return dict(catalogue)
 
 
-def offers_textfile_to_dict(filename, prod_decorator="***"):
+def offers_textfile_to_dict(filename, prod_decorator=":"):
     """Converts text file into the offers dictionary
 
     Parameters
@@ -79,7 +80,7 @@ def offers_textfile_to_dict(filename, prod_decorator="***"):
     filename : str
         The name and location of the of the text file inside the project
     prod_decorator : str, optional
-        Enclose the product name (default is "***")
+        Enclose the product name (default is ":")
 
     Returns
     -------
@@ -97,9 +98,9 @@ def offers_textfile_to_dict(filename, prod_decorator="***"):
     with open(filepath, "r") as f:
         for line in f:
             if prod_decorator in line:
-                arr = line.strip().split(prod_decorator + ": ")
-                product = arr[0].replace("*", "")
-                offer = arr[1].replace("%", "").replace(",", "").split(" ")
+                arr = line.strip().split(prod_decorator)
+                product = arr[0].strip()
+                offer = arr[1].strip().replace("%", "").replace(",", "").split(" ")
                 offers[product] = offer
 
             # TODO: future implementation of "cheapest"
@@ -155,4 +156,5 @@ def basket_textfile_to_dict(filename, basket_decorator="x"):
 
 
 def roundup(x):
+    """Rounds up a floating point number"""
     return math.ceil(x * 100) / 100
